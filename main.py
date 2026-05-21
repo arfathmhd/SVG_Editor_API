@@ -12,7 +12,9 @@ from fastapi import FastAPI, File, Form, HTTPException, Response, UploadFile
 from pydantic import BaseModel, field_validator
 from typing import Literal, Optional
 import xml.etree.ElementTree as ET
-import io
+from fastapi.responses import FileResponse
+import tempfile
+
 
 # ---------------------------------------------------------------------------
 # App initialisation
@@ -98,11 +100,21 @@ def parse_svg(content: bytes) -> ET.Element:
         )
 
 
-def svg_response(root: ET.Element) -> Response:
-    """Serialise an ElementTree back to UTF-8 XML and return it as an SVG image."""
-    buffer = io.BytesIO()
-    ET.ElementTree(root).write(buffer, encoding="utf-8", xml_declaration=True)
-    return Response(content=buffer.getvalue(), media_type="image/svg+xml")
+def svg_response(root: ET.Element) -> FileResponse:
+    """Write the XML to a temporary physical file and return it as an image."""
+    
+    # 1. Create a temporary SVG file on the server's hard drive
+    temp_file = tempfile.NamedTemporaryFile(delete=False, suffix=".svg")
+    
+    # 2. Write our updated XML code directly into that physical file
+    ET.ElementTree(root).write(temp_file.name, encoding="utf-8", xml_declaration=True)
+    
+    # 3. Return the physical file back to the user
+    return FileResponse(
+        path=temp_file.name, 
+        media_type="image/svg+xml",
+        filename="edited_image.svg"  # This forces the browser to treat it as a file!
+    )
 
 
 def find_element_by_id(root: ET.Element, element_id: str) -> ET.Element:

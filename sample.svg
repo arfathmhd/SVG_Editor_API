@@ -1,8 +1,64 @@
-<?xml version='1.0' encoding='utf-8'?>
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400" width="600" height="400">
-    <rect width="100%" height="100%" fill="#f4f6f8" rx="10" />
-    <image id="profile-pic" x="200" y="40" width="200" height="150" href="https://res.cloudinary.com/djwvgejge/image/upload/v1769756425/FA4E5312-5C79-47D2-BB5B-E5A2D138F3ED_tpprqa.png" />
-    <text id="main-title" x="300" y="240" font-family="Arial" font-size="26" fill="#2c3e50" font-weight="bold" text-anchor="end" transform="translate(50,50) rotate(15)">FastAPI Assessment</text>
-    <text id="author-name" x="300" y="280" font-family="Arial" font-size="18" fill="red" text-anchor="start">By Arfath</text>
-    <line x1="300" y1="200" x2="300" y2="300" stroke="#e74c3c" stroke-width="2" stroke-dasharray="5,5" />
-  </svg>
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg"
+     viewBox="0 0 600 400"
+     width="600"
+     height="400">
+ 
+  <defs>
+    <clipPath id="box-clip">
+      <rect x="150" y="260" width="300" height="40" rx="5"/>
+    </clipPath>
+  </defs>
+ 
+  <rect width="100%" height="100%" fill="#f4f6f8" rx="10"/>
+ 
+  <image
+      x="200" y="40" width="200" height="150"
+      href="https://via.placeholder.com/200x150.png?text=API+Testing"/>
+ 
+  <rect id="author-rect"
+      x="150" y="260" width="300" height="40"
+      fill="white" stroke="#000" stroke-width="2" rx="5"/>
+ 
+  <!-- ONLY change text-anchor here: "start", "middle", or "end" -->
+  <text id="author-name"
+      y="280"
+      x="300" 
+      font-family="Arial"
+      font-size="18"
+      fill="#000"
+      text-anchor="middle"
+      dominant-baseline="middle"
+      clip-path="url(#box-clip)">By arfath</text>
+
+    
+  <line x1="300" y1="190" x2="300" y2="320"
+      stroke="#e74c3c" stroke-width="2" stroke-dasharray="5,5"/>
+ 
+  <script type="application/ecmascript">
+    setTimeout(function() {
+      var svg    = document.documentElement;
+      var rectEl = svg.querySelector("rect[id]");
+      var textEl = svg.querySelector("text[id]");
+ 
+      if (!rectEl || !textEl) return;
+ 
+      var rX     = parseFloat(rectEl.getAttribute("x"));
+      var rW     = parseFloat(rectEl.getAttribute("width"));
+      var rY     = parseFloat(rectEl.getAttribute("y"));
+      var rH     = parseFloat(rectEl.getAttribute("height"));
+      var pad    = 10;
+      var anchor = textEl.getAttribute("text-anchor") || "start";
+ 
+      if (anchor === "start") {
+        textEl.setAttribute("x", rX + pad);
+      } else if (anchor === "end") {
+        textEl.setAttribute("x", rX + rW - pad);
+      } else {
+        textEl.setAttribute("x", rX + rW / 2);
+      }
+ 
+      textEl.setAttribute("y", rY + rH / 2);
+    }, 0);
+  </script>
+</svg>
