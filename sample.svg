@@ -21,9 +21,9 @@
       fill="white" stroke="#000" stroke-width="2" rx="5"/>
  
   <!-- ONLY change text-anchor here: "start", "middle", or "end" -->
-  <text id="author-name"
+<text id="author-name"
+      x="300"
       y="280"
-      x="300" 
       font-family="Arial"
       font-size="18"
       fill="#000"

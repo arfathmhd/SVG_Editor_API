@@ -257,15 +257,6 @@ async def set_svg_alignment(
     file: UploadFile = File(..., description="SVG file to edit"),
     payload: str = Form(..., description="JSON string matching SetAlignmentRequest schema"),
 ):
-    """
-    Update the ``text-anchor`` attribute of the element identified by
-    *element_id*. Accepted alignment values: ``left`` | ``center`` | ``right``.
-
-    Mapping:
-        left   → text-anchor="start"
-        center → text-anchor="middle"
-        right  → text-anchor="end"
-    """
     try:
         req = SetAlignmentRequest.model_validate_json(payload)
     except Exception as exc:
@@ -275,7 +266,18 @@ async def set_svg_alignment(
     root = parse_svg(content)
 
     elem = find_element_by_id(root, req.element_id)
+    
+    # 1. Update the text-anchor
     elem.set("text-anchor", req.text_anchor)
+
+    # 2. Update the X coordinate based on the requested alignment
+    # The box is at x=150 with a width of 300. Padding is 10.
+    if req.alignment == "left":
+        elem.set("x", "160")
+    elif req.alignment == "center":
+        elem.set("x", "300")
+    elif req.alignment == "right":
+        elem.set("x", "440")
 
     return svg_response(root)
 
