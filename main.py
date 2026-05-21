@@ -99,10 +99,10 @@ def parse_svg(content: bytes) -> ET.Element:
 
 
 def svg_response(root: ET.Element) -> Response:
-    """Serialise an ElementTree back to UTF-8 XML and return it as HTTP response."""
+    """Serialise an ElementTree back to UTF-8 XML and return it as an SVG image."""
     buffer = io.BytesIO()
     ET.ElementTree(root).write(buffer, encoding="utf-8", xml_declaration=True)
-    return Response(content=buffer.getvalue(), media_type="application/xml")
+    return Response(content=buffer.getvalue(), media_type="image/svg+xml")
 
 
 def find_element_by_id(root: ET.Element, element_id: str) -> ET.Element:
@@ -127,7 +127,7 @@ def find_element_by_id(root: ET.Element, element_id: str) -> ET.Element:
     "/svg/replace-text",
     summary="Replace text in SVG",
     response_class=Response,
-    responses={200: {"content": {"application/xml": {}}}, 400: {"description": "Invalid SVG or input"}},
+    responses={200: {"content": {"image/svg+xml": {}}}, 400: {"description": "Invalid SVG or input"}},
 )
 async def replace_svg_text(
     file: UploadFile = File(..., description="SVG file to edit"),
@@ -181,8 +181,7 @@ async def replace_svg_text(
     "/svg/replace-image",
     summary="Replace image URL in SVG",
     response_class=Response,
-    responses={200: {"content": {"application/xml": {}}}, 400: {"description": "Invalid SVG"}, 404: {"description": "No image element found"}},
-)
+    responses={200: {"content": {"image/svg+xml": {}}}, 400: {"description": "Invalid SVG or input"}},)
 async def replace_svg_image(
     file: UploadFile = File(..., description="SVG file to edit"),
     new_image_url: str = Form(..., description="New image URL to use as href/src"),
@@ -240,7 +239,7 @@ async def replace_svg_image(
     "/svg/set-alignment",
     summary="Set text alignment on an SVG element",
     response_class=Response,
-    responses={200: {"content": {"application/xml": {}}}, 400: {"description": "Invalid SVG"}, 404: {"description": "Element not found"}},
+    responses={200: {"content": {"image/svg+xml": {}}}, 400: {"description": "Invalid SVG"}, 404: {"description": "Element not found"}},
 )
 async def set_svg_alignment(
     file: UploadFile = File(..., description="SVG file to edit"),
@@ -277,7 +276,7 @@ async def set_svg_alignment(
     "/svg/transform",
     summary="Apply a transform to an SVG element",
     response_class=Response,
-    responses={200: {"content": {"application/xml": {}}}, 400: {"description": "Invalid SVG"}, 404: {"description": "Element not found"}, 422: {"description": "No transform specified"}},
+    responses={200: {"content": {"image/svg+xml": {}}}, 400: {"description": "Invalid SVG"}, 404: {"description": "Element not found"}, 422: {"description": "No transform specified"}},
 )
 async def transform_svg_element(
     file: UploadFile = File(..., description="SVG file to edit"),

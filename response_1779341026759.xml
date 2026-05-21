@@ -1,0 +1,8 @@
+<?xml version='1.0' encoding='utf-8'?>
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400" width="600" height="400">
+    <rect width="100%" height="100%" fill="#f4f6f8" rx="10" />
+    <image id="profile-pic" x="200" y="40" width="200" height="150" href="https://res.cloudinary.com/djwvgejge/image/upload/v1769756425/FA4E5312-5C79-47D2-BB5B-E5A2D138F3ED_tpprqa.png" />
+    <text id="main-title" x="300" y="240" font-family="Arial" font-size="26" fill="#2c3e50" font-weight="bold" text-anchor="middle" transform="translate(50,50) rotate(15)">FastAPI Assessment</text>
+    <text id="author-name" x="300" y="280" font-family="Arial" font-size="18" fill="red" text-anchor="start">By Arfath</text>
+    <line x1="300" y1="200" x2="300" y2="300" stroke="#e74c3c" stroke-width="2" stroke-dasharray="5,5" />
+  </svg>
